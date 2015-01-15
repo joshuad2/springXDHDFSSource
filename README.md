@@ -1,7 +1,8 @@
 <p>HdfsFile source for Spring-XD</p>
-<p>================================================================================</p>
+<p>==============================================================</p>
 
 <p>This source class for HDFS provides the ability to use a generic HDFS file system as the source for a Spring-XD stream.</p>
+<p>As is the case for every Spring-XD source you should place the HdfsFile.properties and the HdfsFile.xml in the modules/source directory and the jar file in the lib directory. of Spring-XD.
 <p>Available Options</p>
 <ul>
 <li>inputFilePath -The inputFilePath</li>

@@ -22,7 +22,12 @@ import org.springframework.format.datetime.DateFormatter;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
 
-
+/**
+ * Spring-XD source for handling HDFS files.
+ * 
+ * @author Joshua Davis
+ *
+ */
 public class HdfsFileIntegration 
 		implements  InitializingBean {
 	

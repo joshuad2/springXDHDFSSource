@@ -24,10 +24,9 @@ import org.springframework.format.datetime.DateFormatter;
 import org.springframework.messaging.Message;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={
-		"classpath:MeterHdfsFile-Test.xml"})
+@ContextConfiguration(locations={"classpath:Test-HdfsFile.xml"})
+
 public class HdfsFileIntegrationTest {
 
 	@Autowired

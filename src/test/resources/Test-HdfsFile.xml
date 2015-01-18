@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-file="http://www.springframework.org/schema/integration/file"
+	xmlns:hdp="http://www.springframework.org/schema/hadoop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+  <property name="location">
+    <value>Test-HdfsFile.properties</value>
+  </property>
+</bean>
+<hdp:configuration>
+fs.default.name=${fsname}
+hadoop.home.dir=${hdfsDir}
+</hdp:configuration>
+<hdp:resource-loader />
+
+<bean id="defaultResourceLoader" 
+  class="org.springframework.data.hadoop.fs.CustomResourceLoaderRegistrar">
+  <property name="loader" ref="hadoopResourceLoader"/>
+</bean>
+
+<hdp:file-system id="Hdp"/>
+
+<bean id="hdfsFileIntegration" class="io.pivotal.hdfs.HdfsFileIntegration">
+  <property name="fileSystem" ref="Hdp"/>
+  <property name="inputPath" value="${inputFilePath}"/>
+  <property name="dateFormat" value="${dateFormat}"/>
+  <property name="dateTimeGreaterThan" value="${greaterThanDateTime}"/>
+  <property name="dateTimeLessThan" value="${lessThanDateTime}"/>
+  <property name="filePattern" value="${filePattern}"/>
+  <property name="uniqueFile" value="${uniqueFile}"/>
+</bean>
+	<int:inbound-channel-adapter id="inChannelAdapter" ref="hdfsFileIntegration" method="getFiles" channel="output" auto-startup="false">
+		<int:poller fixed-rate="30" max-messages-per-poll="1000" time-unit="SECONDS" />
+	</int:inbound-channel-adapter>
+	
+	<int:channel id="output" />
+
+</beans>
